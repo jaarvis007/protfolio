@@ -1,110 +1,106 @@
-import React from 'react';
-import { Github, ExternalLink, Code, Zap, Database, Globe, Star, GitBranch } from 'lucide-react';
+import React, { useState } from 'react';
+import { Github, ExternalLink, X, Image, Video, Info, Code } from 'lucide-react';
 
 const Projects = () => {
+  const [isProjectModalOpen, setIsProjectModalOpen] = useState(false);
+  const [selectedProject, setSelectedProject] = useState<any>(null);
+
   const projects = [
     {
-      title: 'E-Commerce Platform',
-      description: 'A full-stack e-commerce application built with MERN stack featuring user authentication, payment integration, and admin dashboard.',
-      image: 'https://images.pexels.com/photos/34577/pexels-photo.jpg?auto=compress&cs=tinysrgb&w=600',
-      technologies: ['React', 'Node.js', 'MongoDB', 'Express.js', 'Stripe API'],
-      liveUrl: '#',
-      githubUrl: '#',
-      features: ['User Authentication', 'Payment Gateway', 'Admin Dashboard', 'Order Management'],
-      category: 'Full Stack',
-      stars: 45,
-      forks: 12
+      title: 'Handy Haemo - Blood Donation App',
+      description: 'A mobile application designed to connect blood donors with recipients efficiently. Features real-time location tracking and secure user authentication.',
+      details: 'This project aims to streamline the blood donation process. It allows users to register as donors or recipients, search for compatible blood types nearby, and get real-time updates. The app emphasizes user privacy and secure data handling. Technologies used include React Native for cross-platform mobile development, Node.js and Express.js for the backend API, and MongoDB for the database. Authentication is handled with JWT and Bcrypt.js, ensuring secure user interactions.',
+      image: 'https://private-user-images.githubusercontent.com/115578878/340248923-afcf12c3-8f7f-4a5c-9e7b-58bf171b5070.png?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3NTM0NDQwNDMsIm5iZiI6MTc1MzQ0Mzc0MywicGF0aCI6Ii8xMTU1Nzg4NzgvMzQwMjQ4OTIzLWFmY2YxMmMzLThmN2YtNGE1Yy05ZTdiLTU4YmYxNzFiNTA3MC5wbmc_WC1BbXotQWxnb3JpdGhtPUFXUzQtSE1BQy1TSEEyNTYmWC1BbXotQ3JlZGVudGlhbD1BS0lBVkNPRFlMU0E1M1BRSzRaQSUyRjIwMjUwNzI1JTJGdXMtZWFzdC0xJTJGczMlMkZhd3M0X3JlcXVlc3QmWC1BbXotRGF0ZT0yMDI1MDcyNVQxMTQyMjNaJlgtQW16LUV4cGlyZXM9MzAwJlgtQW16LVNpZ25hdHVyZT0zMWFmYzJlZjdjOGUyYjg4MzhmMjkyODY2YjRkMDhlM2ZlMWMwOTgxYmY2NGJjNGI2NTZmN2YxZDkzN2M3NGExJlgtQW16LVNpZ25lZEhlYWRlcnM9aG9zdCJ9.WC7BwIXp19LIylfkqysfz82M8WPyyPmHQOXM81WOgOI', // Placeholder image
+      screenshots: [
+        'https://placehold.co/800x500/10b981/000000?text=Handy+Haemo+1',
+        'https://placehold.co/800x500/16a34a/000000?text=Handy+Haemo+2',
+      ],
+      videoUrl: '', // Add video URL if available
+      technologies: ['React Native', 'Node.js', 'Express.js','Geolib','Geolocation','Leflet Map','Redis','MongoDB', 'JWT', 'Bcrypt.js'],
+      githubUrl: 'https://github.com/jaarvis007/Handy-Haemo-Blood-Donation-App-',
+      liveUrl: '', // Add live URL if available
     },
     {
-      title: 'Algorithm Visualizer',
-      description: 'Interactive web application to visualize sorting and pathfinding algorithms with step-by-step animations.',
-      image: 'https://images.pexels.com/photos/1181472/pexels-photo-1181472.jpeg?auto=compress&cs=tinysrgb&w=600',
-      technologies: ['React', 'JavaScript', 'CSS3', 'D3.js'],
-      liveUrl: '#',
-      githubUrl: '#',
-      features: ['Sorting Algorithms', 'Pathfinding', 'Real-time Animation', 'Speed Control'],
-      category: 'Frontend',
-      stars: 32,
-      forks: 8
+      title: 'Sketchy Guess-Multiplayer Drawing & Guessing Game',
+      description: 'Sketchy Guess is an online multiplayer game where one player draws a word, and others try to guess it as fast as they can. The faster you guess, the more points you get. The artist also earns points based on how quickly others guess their drawing.You can play with friends in private rooms or join public games with people around the world. It works in any web browser and is easy to use, fun, and perfect for anyone who enjoys drawing or guessing games like Pictionary.',
+      image: 'https://res.cloudinary.com/drxocmkpu/image/upload/v1753282058/portfolio-project/352706869-9dfdb206-d87c-4dd5-86ac-2df36010030b_ix0de0.png',
+      screenshots: [
+        'https://placehold.co/800x500/06b6d4/000000?text=Ecommerce+1',
+        'https://placehold.co/800x500/0891b2/000000?text=Ecommerce+2',
+      ],
+      videoUrl: '',
+      technologies: ['React', 'Node.js', 'Express.js','Websocket.io','AWS(S3)', 'MongoDB', 'JWT', 'Bcrypt.js'],
+      githubUrl: 'https://github.com/jaarvis007/HardlySlept-464',
+      liveUrl: '',
     },
     {
-      title: 'Task Management API',
-      description: 'RESTful API for task management with user authentication, CRUD operations, and real-time notifications.',
-      image: 'https://images.pexels.com/photos/577585/pexels-photo-577585.jpeg?auto=compress&cs=tinysrgb&w=600',
-      technologies: ['Node.js', 'Express.js', 'MongoDB', 'JWT', 'Socket.io'],
-      liveUrl: '#',
-      githubUrl: '#',
-      features: ['JWT Authentication', 'Real-time Updates', 'RESTful API', 'Data Validation'],
-      category: 'Backend',
-      stars: 28,
-      forks: 6
+      title: 'Real Time WhiteBoard',
+      description: 'A collaborative real-time whiteboard application allowing multiple users to draw and interact simultaneously.',
+      details: 'This project is an interactive digital whiteboard designed for collaborative brainstorming and remote teaching. Users can join shared sessions, draw with various tools (pens, shapes, erasers), and see changes in real-time. Features include undo/redo functionality, different brush sizes and colors, and potentially saving/exporting drawings. Technologies often involve Canvas API for drawing, Socket.io for real-time communication, and a frontend framework like React.',
+      image: 'https://private-user-images.githubusercontent.com/115578878/340237377-b7dc2831-54d0-40ee-a171-e3a6f7fcdf50.png?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3NTM0NDM5MDQsIm5iZiI6MTc1MzQ0MzYwNCwicGF0aCI6Ii8xMTU1Nzg4NzgvMzQwMjM3Mzc3LWI3ZGMyODMxLTU0ZDAtNDBlZS1hMTcxLWUzYTZmN2ZjZGY1MC5wbmc_WC1BbXotQWxnb3JpdGhtPUFXUzQtSE1BQy1TSEEyNTYmWC1BbXotQ3JlZGVudGlhbD1BS0lBVkNPRFlMU0E1M1BRSzRaQSUyRjIwMjUwNzI1JTJGdXMtZWFzdC0xJTJGczMlMkZhd3M0X3JlcXVlc3QmWC1BbXotRGF0ZT0yMDI1MDcyNVQxMTQwMDRaJlgtQW16LUV4cGlyZXM9MzAwJlgtQW16LVNpZ25hdHVyZT04ZmRhZWY5MWUxMmY1YjU5NmY3OTU5NDY3MTY3YTJiNzJiNjY4NDdjZjgwMjVhMjk2YjRkMDZmNTljMWIyYzczJlgtQW16LVNpZ25lZEhlYWRlcnM9aG9zdCJ9.gbDUCx1ykYdbTsyEDqsgFI8QOQCq29PS82fR6Bjkhcw',
+      screenshots: [
+        'https://placehold.co/800x500/34d399/000000?text=Whiteboard+1',
+        'https://placehold.co/800x500/22c55e/000000?text=Whiteboard+2',
+      ],
+      videoUrl: '',
+      technologies: ['HTML' ,'CSS','Javascript', 'Socket.io', 'Canvas API'],
+      githubUrl: 'https://github.com/jaarvis007/WhiteBoard-Project',
+      liveUrl: '',
     },
     {
-      title: 'Weather Dashboard',
-      description: 'React-based weather application with location-based forecasts, interactive maps, and detailed weather analytics.',
-      image: 'https://images.pexels.com/photos/1118873/pexels-photo-1118873.jpeg?auto=compress&cs=tinysrgb&w=600',
-      technologies: ['React', 'OpenWeather API', 'Chart.js', 'Tailwind CSS'],
-      liveUrl: '#',
-      githubUrl: '#',
-      features: ['5-day Forecast', 'Interactive Maps', 'Weather Charts', 'Location Search'],
-      category: 'Frontend',
-      stars: 38,
-      forks: 15
+      title: 'Quiz_Application',
+      description: 'An interactive quiz application with multiple categories, score tracking, and a user-friendly interface.',
+      details: 'This quiz application provides an engaging platform for users to test their knowledge across various topics. It features different quiz categories, a timer for questions, immediate feedback on answers, and a final score summary. The application is designed to be intuitive and responsive, offering a smooth experience across devices. Potential technologies include React for the frontend, and a backend (Node.js/Express.js) for managing questions and user scores, possibly with a database like MongoDB or MySQL.',
+      image: 'https://private-user-images.githubusercontent.com/115578878/417256305-d5e13441-8d6d-4d3b-aadb-f705ce2a37f1.png?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3NTM0NDM5NjIsIm5iZiI6MTc1MzQ0MzY2MiwicGF0aCI6Ii8xMTU1Nzg4NzgvNDE3MjU2MzA1LWQ1ZTEzNDQxLThkNmQtNGQzYi1hYWRiLWY3MDVjZTJhMzdmMS5wbmc_WC1BbXotQWxnb3JpdGhtPUFXUzQtSE1BQy1TSEEyNTYmWC1BbXotQ3JlZGVudGlhbD1BS0lBVkNPRFlMU0E1M1BRSzRaQSUyRjIwMjUwNzI1JTJGdXMtZWFzdC0xJTJGczMlMkZhd3M0X3JlcXVlc3QmWC1BbXotRGF0ZT0yMDI1MDcyNVQxMTQxMDJaJlgtQW16LUV4cGlyZXM9MzAwJlgtQW16LVNpZ25hdHVyZT0wMjUwNzcwNjNkYjNlYzU1ZDQxMjkzZWE3YmU1MzMzMTc5ZTk4ZTc1OTFlMWUwNDk2ZTMxMTA0OGUzYzczYzJmJlgtQW16LVNpZ25lZEhlYWRlcnM9aG9zdCJ9.wKnxPr7i_wcY0qsI9sRpUxEMIRzRsG8l1Vtbi78AluU',
+      screenshots: [
+        'https://placehold.co/800x500/60a5fa/000000?text=Quiz+App+1',
+        'https://placehold.co/800x500/3b82f6/000000?text=Quiz+App+2',
+      ],
+      videoUrl: '',
+      technologies: ['React', 'JavaScript', 'Node.js', 'MongoDB'],
+      githubUrl: 'https://github.com/jaarvis007/Quiz_Application',
+      liveUrl: '',
     },
     {
-      title: 'Chat Application',
-      description: 'Real-time chat application with multiple rooms, file sharing, and emoji support using Socket.io.',
-      image: 'https://images.pexels.com/photos/5076516/pexels-photo-5076516.jpeg?auto=compress&cs=tinysrgb&w=600',
-      technologies: ['React', 'Node.js', 'Socket.io', 'MongoDB', 'Cloudinary'],
-      liveUrl: '#',
-      githubUrl: '#',
-      features: ['Real-time Messaging', 'File Sharing', 'Multiple Rooms', 'Emoji Support'],
-      category: 'Full Stack',
-      stars: 52,
-      forks: 18
+      title: 'Movie-Shortlister',
+      description: 'A web application to discover and shortlist movies based on various criteria, with user preferences and ratings.',
+      details: 'This project helps users discover new movies and manage their watchlists. It allows searching for movies by genre, year, ratings, and other filters. Users can shortlist movies, add them to favorites, and rate them. The application typically integrates with a public movie API (like TMDB) to fetch movie data and provides a clean, intuitive interface for browsing. Frontend is usually built with a modern JavaScript framework, and a simple backend might handle user preferences.',
+      image: 'https://placehold.co/600x400/a78bfa/000000?text=Movie+Shortlister',
+      screenshots: [
+        'https://placehold.co/800x500/a78bfa/000000?text=Movie+App+1',
+        'https://placehold.co/800x500/8b5cf6/000000?text=Movie+App+2',
+      ],
+      videoUrl: '',
+      technologies: ['React Native', 'TMDB API', 'Node.js', 'Express.js'],
+      githubUrl: 'https://github.com/jaarvis007/Movie-Shortlister',
+      liveUrl: '',
     },
-    {
-      title: 'Portfolio Website',
-      description: 'Personal portfolio website built with React and Tailwind CSS featuring smooth animations and responsive design.',
-      image: 'https://images.pexels.com/photos/196644/pexels-photo-196644.jpeg?auto=compress&cs=tinysrgb&w=600',
-      technologies: ['React', 'Tailwind CSS', 'Framer Motion', 'Vite'],
-      liveUrl: '#',
-      githubUrl: '#',
-      features: ['Responsive Design', 'Smooth Animations', 'Dark Theme', 'Contact Form'],
-      category: 'Frontend',
-      stars: 24,
-      forks: 5
-    }
+    // Retaining a generic project as an example if needed, or remove if all are specific
+    // {
+    //   title: 'Generic Full-Stack Project',
+    //   description: 'A versatile full-stack application demonstrating core principles of web development, including database integration and API design.',
+    //   details: 'This is a foundational project showcasing a complete web application flow, from frontend user interaction to backend data processing and storage. It covers essential concepts like routing, state management, database interactions (CRUD operations), and API development. It serves as a strong base for building more complex web services.',
+    //   image: 'https://placehold.co/600x400/fcd34d/000000?text=Generic+Project',
+    //   screenshots: [],
+    //   videoUrl: '',
+    //   technologies: ['React', 'Node.js', 'MongoDB', 'REST APIs'],
+    //   githubUrl: '#',
+    //   liveUrl: '#',
+    // }
   ];
 
-  const getCategoryIcon = (category: string) => {
-    switch (category) {
-      case 'Full Stack':
-        return <Globe className="w-4 h-4" />;
-      case 'Frontend':
-        return <Code className="w-4 h-4" />;
-      case 'Backend':
-        return <Database className="w-4 h-4" />;
-      default:
-        return <Zap className="w-4 h-4" />;
-    }
+  const openProjectModal = (project: any) => {
+    setSelectedProject(project);
+    setIsProjectModalOpen(true);
   };
 
-  const getCategoryColor = (category: string) => {
-    switch (category) {
-      case 'Full Stack':
-        return 'bg-green-600/90 border-green-500/50';
-      case 'Frontend':
-        return 'bg-blue-600/90 border-blue-500/50';
-      case 'Backend':
-        return 'bg-purple-600/90 border-purple-500/50';
-      default:
-        return 'bg-gray-600/90 border-gray-500/50';
-    }
+  const closeProjectModal = () => {
+    setSelectedProject(null);
+    setIsProjectModalOpen(false);
   };
 
   return (
-    <section id="projects" className="py-20 bg-gray-900 relative overflow-hidden">
+    <section id="projects" className="py-20 bg-black relative overflow-hidden">
       {/* Background Animation */}
       <div className="absolute inset-0 opacity-5">
         <div className="absolute top-10 right-10 w-32 h-32 border border-green-500 rounded-lg animate-spin-slow"></div>
@@ -112,88 +108,93 @@ const Projects = () => {
       </div>
 
       <div className="container mx-auto px-6 relative z-10">
+        {/* Projects Heading - Consistent with Skills/About */}
         <div className="text-center mb-16">
-          <h2 className="text-4xl font-bold mb-4 text-green-400 animate-fade-in font-mono">&gt; Featured Projects</h2>
-          <p className="text-green-300 max-w-2xl mx-auto font-mono">
-            Here are some of my recent projects that showcase my skills in full-stack development and problem-solving.
+          <h2 className="text-6xl md:text-8xl font-extrabold mb-4 text-green-400 animate-fade-in"
+              style={{
+                textShadow: '8px 8px 0px #000000, 16px 16px 0px #166534'
+              }}>
+            PROJECTS
+          </h2>
+          <p className="text-green-300 max-w-2xl mx-auto text-xl font-semibold">
+            Showcasing my work in full-stack development and problem-solving.
           </p>
         </div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-12">
           {projects.map((project, index) => (
-            <div key={index} className="bg-black border border-green-500/30 rounded-lg overflow-hidden hover:border-green-400 transition-all duration-300 transform hover:scale-105 hover:shadow-2xl group animate-fade-in-up" style={{animationDelay: `${index * 100}ms`}}>
-              {/* Project Image */}
-              <div className="relative overflow-hidden">
-                <img 
-                  src={project.image} 
+            <div
+              key={index}
+              className="relative bg-gray-900 rounded-xl overflow-hidden shadow-2xl group
+                         transform transition-all duration-500 ease-in-out
+                         hover:scale-105 hover:rotate-y-3 hover:rotate-x-2
+                         perspective-1000 animate-fade-in-up flex flex-col"
+              style={{ animationDelay: `${index * 100}ms` }}
+            >
+              {/* Project Image with subtle 3D effect */}
+              <div className="relative h-48 overflow-hidden">
+                <img
+                  src={project.image}
                   alt={project.title}
-                  className="w-full h-48 object-cover transition-transform duration-300 group-hover:scale-110"
+                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-115"
+                  onError={(e) => { e.currentTarget.src = `https://placehold.co/600x400/333333/FFFFFF?text=${project.title.replace(/\s/g, '+').substring(0, 15)}`; }}
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                <div className="absolute top-4 left-4">
-                  <span className={`text-white px-3 py-1 rounded text-sm flex items-center gap-1 border font-mono ${getCategoryColor(project.category)}`}>
-                    {getCategoryIcon(project.category)}
-                    {project.category}
-                  </span>
-                </div>
-                <div className="absolute top-4 right-4 flex gap-2">
-                  <div className="bg-black/80 text-white px-2 py-1 rounded text-xs flex items-center gap-1 font-mono">
-                    <Star className="w-3 h-3" />
-                    {project.stars}
-                  </div>
-                  <div className="bg-black/80 text-white px-2 py-1 rounded text-xs flex items-center gap-1 font-mono">
-                    <GitBranch className="w-3 h-3" />
-                    {project.forks}
-                  </div>
-                </div>
+                {/* Dark overlay for text readability */}
+                <div className="absolute inset-0 bg-black/50 transition-opacity duration-300 group-hover:opacity-0"></div>
+                {/* Subtle gradient for depth */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
               </div>
 
               {/* Project Content */}
-              <div className="p-6">
-                <h3 className="text-xl font-semibold mb-3 text-white group-hover:text-green-400 transition-colors font-mono">
-                  {project.title}
-                </h3>
-                <p className="text-green-300 mb-4 text-sm leading-relaxed font-mono">
-                  {project.description}
-                </p>
+              <div className="p-6 flex-1 flex flex-col justify-between">
+                <div>
+                  <h3 className="text-xl font-semibold mb-3 text-white group-hover:text-green-400 transition-colors font-mono">
+                    {project.title}
+                  </h3>
+                  <p className="text-green-300 mb-4 text-sm leading-relaxed font-mono max-h-32 overflow-y-auto custom-scrollbar">
+                    {project.description}
+                  </p>
 
-                {/* Technologies */}
-                <div className="flex flex-wrap gap-2 mb-4">
-                  {project.technologies.map((tech, techIndex) => (
-                    <span key={techIndex} className="bg-gray-800 text-green-300 px-2 py-1 rounded text-xs border border-green-600/30 hover:border-green-500 transition-colors font-mono">
-                      {tech}
-                    </span>
-                  ))}
-                </div>
-
-                {/* Features */}
-                <div className="mb-4">
-                  <p className="text-green-400 text-xs mb-2 font-mono">Key Features:</p>
-                  <div className="grid grid-cols-2 gap-1">
-                    {project.features.map((feature, featureIndex) => (
-                      <span key={featureIndex} className="text-green-300 text-xs flex items-center gap-1 font-mono">
-                        <div className="w-1 h-1 bg-green-400 rounded-full"></div>
-                        {feature}
+                  {/* Technologies */}
+                  <div className="flex flex-wrap gap-1 mb-4">
+                    {project.technologies.map((tech, techIndex) => (
+                      <span key={techIndex} className="bg-gray-800 text-green-300 px-2 py-0.5 rounded text-xs border border-green-600/30 font-mono">
+                        {tech}
                       </span>
                     ))}
                   </div>
                 </div>
 
                 {/* Action Buttons */}
-                <div className="flex gap-3">
-                  <a 
-                    href={project.liveUrl} 
-                    className="flex-1 bg-green-600 hover:bg-green-700 text-black px-4 py-2 rounded font-medium transition-all duration-300 flex items-center justify-center gap-2 text-sm transform hover:scale-105 font-mono"
+                <div className="flex gap-4 mt-auto pt-4 border-t border-gray-800">
+                  {project.liveUrl && (
+                    <a
+                      href={project.liveUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex-1 bg-green-600 hover:bg-green-700 text-black px-4 py-2 rounded font-semibold transition-all duration-300 flex items-center justify-center gap-2 text-sm transform hover:scale-105 font-mono relative overflow-hidden group
+                                 shadow-md hover:shadow-lg active:translate-y-0.5 active:shadow-none"
+                    >
+                      <span className="relative z-10 flex items-center gap-2">
+                        <ExternalLink size={16} />
+                        Live Demo
+                      </span>
+                      <div className="absolute inset-0 bg-white opacity-0 group-hover:opacity-20 transition-opacity duration-300"></div>
+                    </a>
+                  )}
+                  <a
+                    href={project.githubUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex-1 bg-gray-800 border border-green-600 text-green-300 px-4 py-2 rounded font-semibold transition-all duration-300 flex items-center justify-center gap-2 text-sm font-mono relative overflow-hidden
+                               hover:bg-green-700 hover:text-black hover:shadow-green-500/50 hover:shadow-lg
+                               active:translate-y-0.5 active:shadow-none"
                   >
-                    <ExternalLink size={16} />
-                    Live Demo
-                  </a>
-                  <a 
-                    href={project.githubUrl} 
-                    className="flex-1 border border-green-600 hover:border-green-400 text-green-300 hover:text-green-400 px-4 py-2 rounded font-medium transition-all duration-300 flex items-center justify-center gap-2 text-sm transform hover:scale-105 font-mono"
-                  >
-                    <Github size={16} />
-                    Code
+                    <span className="relative z-10 flex items-center gap-2">
+                      <Github size={16} />
+                      Code
+                    </span>
+                    <div className="absolute inset-0 bg-white opacity-0 group-hover:opacity-20 transition-opacity duration-300"></div>
                   </a>
                 </div>
               </div>
@@ -203,12 +204,18 @@ const Projects = () => {
 
         {/* View More Button */}
         <div className="text-center mt-12 animate-fade-in-up delay-700">
-          <button className="bg-transparent border-2 border-green-600 text-green-600 hover:bg-green-600 hover:text-black px-8 py-3 rounded font-semibold transition-all duration-300 transform hover:scale-105 relative overflow-hidden group font-mono">
+          <a
+            href="https://github.com/jaarvis007?tab=repositories"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="bg-transparent border-2 border-green-600 text-green-600 hover:bg-green-600 hover:text-black px-8 py-3 rounded font-semibold transition-all duration-300 transform hover:scale-105 relative overflow-hidden group font-mono"
+          >
             <span className="relative z-10">View More Projects on GitHub</span>
             <div className="absolute inset-0 bg-green-600 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></div>
-          </button>
+          </a>
         </div>
       </div>
+      {/* Removed Project Details Modal */}
     </section>
   );
 };

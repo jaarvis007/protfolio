@@ -6,10 +6,14 @@ import {
   Mail,
   MessageSquare,
   CheckCircle,
+  X,
+  PhoneCall,
+  MessageCircle,
+  Code2
 } from "lucide-react";
 
 const Contact = () => {
-  const [showForm, setShowForm] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [typedText, setTypedText] = useState("");
   const [isTyping, setIsTyping] = useState(true);
   const [formData, setFormData] = useState({
@@ -31,18 +35,24 @@ const Contact = () => {
   const inputRef = useRef<HTMLInputElement>(null);
   const terminalRef = useRef<HTMLDivElement>(null);
 
-  const fullText = "Let's Connect & Build Something Amazing";
+  const fullIntroText = "Let's Connect & Build Something Amazing";
+
+  // IMPORTANT: Replace 'YOUR_WEB3FORMS_ACCESS_KEY' with your actual Web3Forms Access Key
+  const WEB3FORMS_ACCESS_KEY = 'b8620165-191d-4a69-831e-9375c15646e3';
 
   useEffect(() => {
-    if (typedText.length < fullText.length) {
+    if (!isModalOpen && typedText.length < fullIntroText.length) {
       const timeout = setTimeout(() => {
-        setTypedText(fullText.slice(0, typedText.length + 1));
+        setTypedText(fullIntroText.slice(0, typedText.length + 1));
       }, 100);
       return () => clearTimeout(timeout);
-    } else {
+    } else if (isModalOpen && typedText !== fullIntroText) {
+      setTypedText(fullIntroText);
+      setIsTyping(false);
+    } else if (!isModalOpen && typedText === fullIntroText) {
       setIsTyping(false);
     }
-  }, [typedText, fullText]);
+  }, [typedText, fullIntroText, isModalOpen]);
 
   const steps = [
     {
@@ -76,10 +86,10 @@ const Contact = () => {
   ];
 
   useEffect(() => {
-    if (inputRef.current) {
+    if (isModalOpen && inputRef.current) {
       inputRef.current.focus();
     }
-  }, [currentStep]);
+  }, [currentStep, isModalOpen]);
 
   useEffect(() => {
     if (terminalRef.current) {
@@ -117,33 +127,67 @@ const Contact = () => {
     }
   };
 
-  const handleFinalSubmit = () => {
+  const handleFinalSubmit = async () => {
     setIsSubmitting(true);
-    const newHistory = [
-      ...terminalHistory,
+    setTerminalHistory((prev) => [
+      ...prev,
       "$ ./send_message.sh --execute",
       "Validating input parameters...",
       "Establishing secure connection...",
       "Sending message...",
-    ];
-    setTerminalHistory(newHistory);
+    ]);
 
-    // Simulate API call
-    setTimeout(() => {
+    // Prepare FormData for Web3Forms
+    const web3formsFormData = new FormData();
+    web3formsFormData.append("access_key", WEB3FORMS_ACCESS_KEY);
+    web3formsFormData.append("name", formData.name);
+    web3formsFormData.append("email", formData.email);
+    web3formsFormData.append("subject", formData.subject);
+    web3formsFormData.append("message", formData.message);
+
+    try {
+      
+
+      const response = await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        body: web3formsFormData,
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        setTerminalHistory((prev) => [
+          ...prev,
+          "✓ Message sent successfully!",
+          "Connection closed.",
+          "Thank you for reaching out. I'll get back to you soon!",
+          "",
+        ]);
+        setIsSubmitted(true);
+      } else {
+        setTerminalHistory((prev) => [
+          ...prev,
+          `✗ Error: ${data.message || 'Failed to send message.'}`,
+          "Connection closed.",
+          "Please try again later.",
+          "",
+        ]);
+      }
+    } catch (error) {
       setTerminalHistory((prev) => [
         ...prev,
-        "✓ Message sent successfully!",
+        `✗ Network Error: ${error instanceof Error ? error.message : 'Unknown error'}`,
         "Connection closed.",
-        "Thank you for reaching out. I'll get back to you soon!",
+        "Please check your internet connection and try again.",
         "",
       ]);
+    } finally {
       setIsSubmitting(false);
-      setIsSubmitted(true);
-    }, 3000);
+    }
   };
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
-    if (e.key === "Enter" && !e.shiftKey) {
+    if (e.key === "Enter" && !e.shiftKey && !isSubmitting && !isSubmitted) {
       e.preventDefault();
       handleSubmitStep();
     }
@@ -153,7 +197,9 @@ const Contact = () => {
     setFormData({ name: "", email: "", subject: "", message: "" });
     setCurrentStep(0);
     setIsSubmitted(false);
-    setShowForm(false);
+    setIsModalOpen(false);
+    setTypedText("");
+    setIsTyping(true);
     setTerminalHistory([
       "$ ./contact_form.sh --init",
       "Contact form initialized...",
@@ -164,122 +210,66 @@ const Contact = () => {
 
   return (
     <section id="contact" className="py-20 bg-black relative overflow-hidden">
-      {/* Floating code snippets background */}
-      <div className="absolute inset-0 overflow-hidden opacity-5">
-        {[...Array(25)].map((_, i) => (
-          <div
-            key={i}
-            className="absolute text-green-400 text-xs font-mono animate-float"
-            style={{
-              left: `${Math.random() * 100}%`,
-              top: `${Math.random() * 100}%`,
-              animationDelay: `${Math.random() * 5}s`,
-              animationDuration: `${3 + Math.random() * 4}s`,
-            }}
-          >
-            {
-              [
-                "curl -X POST",
-                "fetch()",
-                "axios.post",
-                "sendmail",
-                "smtp.send",
-                "POST /contact",
-                "form.submit",
-                "validate()",
-                "response.json",
-                "await send",
-              ][Math.floor(Math.random() * 10)]
-            }
-          </div>
-        ))}
-      </div>
-
-      {/* Matrix-style background */}
-      <div className="absolute inset-0 z-0">
-        <div className="absolute top-1/4 left-1/4 w-72 h-72 bg-green-500/5 rounded-full blur-3xl animate-pulse"></div>
-        <div className="absolute top-3/4 right-1/4 w-96 h-96 bg-blue-500/5 rounded-full blur-3xl animate-pulse delay-1000"></div>
-        <div className="absolute top-1/2 left-1/2 w-64 h-64 bg-cyan-500/5 rounded-full blur-3xl animate-pulse delay-500"></div>
-      </div>
+      {/* Removed Floating code snippets background */}
+      {/* Removed Matrix-style background */}
 
       <div className="container mx-auto px-6 relative z-10">
+        {/* Contact Heading - Consistent with Skills/About */}
         <div className="text-center mb-16">
-          <div className="bg-gray-900 border border-green-500/30 rounded-lg p-8 max-w-4xl mx-auto mb-8 transform hover:scale-[1.02] transition-all duration-300">
-            <div className="flex items-center gap-2 mb-4">
-              <div className="w-3 h-3 bg-red-500 rounded-full"></div>
-              <div className="w-3 h-3 bg-yellow-500 rounded-full"></div>
-              <div className="w-3 h-3 bg-green-500 rounded-full"></div>
-              <span className="text-green-400 text-sm ml-2 font-mono">
-                ~/contact
-              </span>
-            </div>
+          <h2 className="text-6xl md:text-8xl font-extrabold mb-4 text-green-400 animate-fade-in"
+              style={{
+                textShadow: '8px 8px 0px #000000, 16px 16px 0px #166534'
+              }}>
+            CONTACT
+          </h2>
+          <p className="text-green-300 max-w-2xl mx-auto text-xl font-semibold">
+            Let's connect and build something amazing.
+          </p>
+        </div>
 
-            <div className="text-center mb-8">
-              <div className="text-green-400 font-mono text-sm mb-4">
-                <span className="text-cyan-400">$</span> echo "Initializing
-                contact interface..."
+        <div className="text-center mb-12">
+          {/* Animated Contact Button - Opens Modal */}
+          <button
+            onClick={() => setIsModalOpen(true)}
+            className="group relative bg-gradient-to-r from-green-600 to-cyan-600 hover:from-green-700 hover:to-cyan-700 text-black px-8 py-4 rounded-lg font-mono font-semibold transition-all duration-300 transform hover:scale-105 hover:shadow-2xl overflow-hidden"
+          >
+            <span className="relative z-10 flex items-center justify-center gap-3">
+              <Terminal className="w-5 h-5 group-hover:animate-bounce" />
+              ./open_contact_form.sh
+              <div className="flex gap-1">
+                <div className="w-1 h-1 bg-black rounded-full animate-pulse"></div>
+                <div className="w-1 h-1 bg-black rounded-full animate-pulse delay-100"></div>
+                <div className="w-1 h-1 bg-black rounded-full animate-pulse delay-200"></div>
               </div>
-              <h2 className="text-4xl md:text-6xl font-bold mb-6 text-white font-mono">
-                <span className="bg-gradient-to-r from-green-400 via-cyan-500 to-blue-400 bg-clip-text text-transparent">
-                  {typedText}
-                </span>
-                {isTyping && (
-                  <span className="animate-pulse text-green-400">|</span>
-                )}
-              </h2>
-            </div>
+            </span>
+            <div className="absolute inset-0 bg-gradient-to-r from-green-400 to-cyan-400 opacity-0 group-hover:opacity-20 transition-opacity duration-300"></div>
+          </button>
 
-            <div className="text-center">
-              <div className="text-green-400 font-mono text-sm mb-2">
-                <span className="text-cyan-400">$</span> cat welcome_message.txt
-              </div>
-              <p className="text-gray-300 font-mono text-lg mb-6 leading-relaxed">
-                Ready to collaborate on exciting projects, discuss
-                opportunities,
-                <br />
-                or just have a tech conversation? Let's connect!
-              </p>
-
-              <div className="text-green-400 font-mono text-sm mb-2">
-                <span className="text-cyan-400">$</span> ./start_conversation.sh
-              </div>
-
-              {/* Animated Contact Button */}
-              <button
-                onClick={() => setShowForm(!showForm)}
-                className="group relative bg-gradient-to-r from-green-600 to-cyan-600 hover:from-green-700 hover:to-cyan-700 text-black px-8 py-4 rounded-lg font-mono font-semibold transition-all duration-300 transform hover:scale-105 hover:shadow-2xl overflow-hidden"
-              >
-                <span className="relative z-10 flex items-center justify-center gap-3">
-                  <Terminal className="w-5 h-5 group-hover:animate-bounce" />
-                  {showForm ? "./close_form.sh" : "./open_contact_form.sh"}
-                  <div className="flex gap-1">
-                    <div className="w-1 h-1 bg-black rounded-full animate-pulse"></div>
-                    <div className="w-1 h-1 bg-black rounded-full animate-pulse delay-100"></div>
-                    <div className="w-1 h-1 bg-black rounded-full animate-pulse delay-200"></div>
-                  </div>
-                </span>
-                <div className="absolute inset-0 bg-gradient-to-r from-green-400 to-cyan-400 opacity-0 group-hover:opacity-20 transition-opacity duration-300"></div>
-              </button>
-
-              <div className="text-gray-400 font-mono text-xs mt-3">
-                Status: {showForm ? "Form Active" : "Ready to Initialize"} |
-                Press to {showForm ? "close" : "start"}
-              </div>
-            </div>
+          <div className="text-gray-400 font-mono text-xs mt-3">
+            Status: {isModalOpen ? "Form Active" : "Ready to Initialize"} |
+            Press to {isModalOpen ? "close" : "start"}
           </div>
         </div>
 
+        {/* Modal Overlay */}
+        {isModalOpen && (
+          <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 animate-fade-in">
+            {/* Modal Content */}
+            <div
+              className={`relative bg-gray-950 border border-green-500/30 rounded-lg shadow-2xl p-6 max-w-2xl w-full mx-4 transition-all duration-300 transform ${
+                isModalOpen ? 'scale-100 opacity-100' : 'scale-95 opacity-0'
+              }`}
+            >
+              {/* Close Button */}
+              <button
+                onClick={resetForm}
+                className="absolute top-4 right-4 text-gray-400 hover:text-white transition-colors"
+                aria-label="Close form"
+              >
+                <X size={24} />
+              </button>
 
-        <div
-          className={`max-w-6xl mx-auto transition-all duration-700 transform ${
-            showForm
-              ? "opacity-100 translate-y-0 scale-100"
-              : "opacity-0 translate-y-10 scale-95 pointer-events-none"
-          }`}
-        >
-          <div className="grid lg:grid-cols-2 gap-8">
-            <div className="bg-gray-900 border border-green-500/30 rounded-lg shadow-2xl">
-              <div className="flex items-center gap-2 p-4 border-b border-green-500/20">
+              <div className="flex items-center gap-2 p-4 border-b border-green-500/20 -mx-6 -mt-6 mb-6 rounded-t-lg">
                 <div className="w-3 h-3 bg-red-500 rounded-full"></div>
                 <div className="w-3 h-3 bg-yellow-500 rounded-full"></div>
                 <div className="w-3 h-3 bg-green-500 rounded-full"></div>
@@ -288,11 +278,16 @@ const Contact = () => {
                 </span>
               </div>
 
-              <div className="p-6">
-                
+              <div className="p-0">
+                {/* Contact Image/Icon */}
+                <div className="flex justify-center mb-6 space-x-4">
+                  <PhoneCall className="w-24 h-24 text-green-500 animate-pulse" />
+                  <MessageCircle className="w-24 h-24 text-cyan-500 animate-pulse delay-200" />
+                </div>
+
                 <div
                   ref={terminalRef}
-                  className="bg-black rounded p-4 h-64 overflow-y-auto mb-4 border border-gray-700"
+                  className="bg-black rounded p-4 h-64 overflow-y-auto mb-4 border border-gray-700 custom-scrollbar"
                 >
                   {terminalHistory.map((line, index) => (
                     <div key={index} className="font-mono text-sm mb-1">
@@ -408,10 +403,20 @@ const Contact = () => {
               </div>
             </div>
           </div>
-        </div>
+        )}
       </div>
     </section>
   );
 };
+
+// Declare window.emailjs for TypeScript
+declare global {
+  interface Window {
+    emailjs: {
+      init: (publicKey: string) => void;
+      send: (serviceID: string, templateID: string, templateParams: Record<string, unknown>) => Promise<any>;
+    };
+  }
+}
 
 export default Contact;

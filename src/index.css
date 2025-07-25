@@ -52,6 +52,26 @@ body {
   }
 }
 
+/* Keyframes for horizontal scrolling animations */
+@keyframes scroll-left {
+  0% { transform: translateX(0%); }
+  100% { transform: translateX(-50%); } /* Scrolls half of the duplicated content */
+}
+
+@keyframes scroll-right {
+  0% { transform: translateX(-50%); } /* Start from half to make it loop seamlessly */
+  100% { transform: translateX(0%); }
+}
+
+/* Animation classes for the scrolling rows */
+.animate-scroll-left {
+  animation: scroll-left 40s linear infinite; /* Adjust duration for speed */
+}
+
+.animate-scroll-right {
+  animation: scroll-right 40s linear infinite; /* Adjust duration for speed */
+}
+
 @keyframes slide-in-left {
   from { 
     opacity: 0; 
