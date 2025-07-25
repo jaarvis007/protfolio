@@ -98,7 +98,7 @@ const Footer = () => {
           </div>
           
           <div className="flex items-center gap-4">
-            <span className="text-gray-400 text-sm">Built with React & Tailwind CSS</span>
+            <span className="text-gray-400 text-sm">Built with Next & Tailwind CSS</span>
             <button
               onClick={scrollToTop}
               className="bg-green-600 hover:bg-green-700 text-black p-3 rounded-full transition-all duration-300 transform hover:scale-125 hover:rotate-180 group shadow-lg hover:shadow-green-500/50" /* More dramatic button */
