@@ -63,7 +63,7 @@ const Experience = () => {
 
   // Filter experiences to show only the requested ones
   const experiencesToShow = allExperiences.filter(exp => 
-    exp.position === 'Competitive Programming Mentor' || exp.position === 'Software Developer Intern'
+    exp.position === 'Software Developer Intern'
   );
 
   // Function to get text color based on experience type
